@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soho Pizza | Premium Italian Cuisine in London</title>
+    <meta name="description" content="Soho Pizza - Authentic Italian food in London. Order now for delivery & takeaway.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #faf9f6;
+            --accent: #2d6a4f;
+            --accent2: #1b4332;
+            --text: #1a1a1f;
+            --gradient: linear-gradient(135deg, #2d6a4f 0%, #40916c 50%, #2d6a4f 100%);
+            --hero-gradient: linear-gradient(180deg, rgba(45,106,79,0.08) 0%, rgba(250,249,246,0) 100%);
+        }
+        
+        * {
+            cursor: none;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .cursor.hover {
+            transform: scale(2.5);
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: var(--hero-gradient);
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 10rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            color: var(--accent);
+        }
+        
+        /* Kinetic Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 3rem 0;
+            background: var(--accent);
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        
+        .marquee-item {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--bg);
+            margin: 0 2rem;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* About Section */
+        .about {
+            padding: 8rem 2rem;
+            position: relative;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 600px;
+            background: var(--gradient);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800') center/cover;
+            opacity: 0.8;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover::before {
+            transform: scale(1.1);
+        }
+        
+        .about-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .about-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        /* Menu Preview */
+        .menu-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(0,0,0,0.3) 100%);
+        }
+        
+        .menu-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .menu-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .menu-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .menu-card-price {
+            font-size: 1.25rem;
+            color: var(--accent2);
+            font-weight: 600;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 2rem;
+            text-align: center;
+            background: var(--hero-gradient);
+        }
+        
+        .cta-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-btn {
+            padding: 1.25rem 3rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .cta-btn-primary {
+            background: var(--gradient);
+            color: var(--bg);
+        }
+        
+        .cta-btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .cta-btn-secondary {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .cta-btn-secondary:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                height: 400px;
+            }
+            
+            .cursor, .cursor-dot {
+                display: none;
+            }
+            
+            * {
+                cursor: auto;
+            }
+        }
+        
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Soho Pizza</h1>
+        <p class="hero-subtitle">Authentic Italian Cuisine in London</p>
+    </section>
+    
+    <!-- Kinetic Marquee -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span class="marquee-item">🔥 Fresh Ingredients</span>
+            <span class="marquee-item">⭐ Authentic Recipes</span>
+            <span class="marquee-item">🚀 Fast Delivery</span>
+            <span class="marquee-item">❤️ Made with Love</span>
+            <span class="marquee-item">🔥 Fresh Ingredients</span>
+            <span class="marquee-item">⭐ Authentic Recipes</span>
+            <span class="marquee-item">🚀 Fast Delivery</span>
+            <span class="marquee-item">❤️ Made with Love</span>
+        </div>
+    </div>
+    
+    <!-- About Section -->
+    <section class="about">
+        <div class="about-grid">
+            <div class="about-image reveal"></div>
+            <div class="about-content reveal">
+                <h2 class="about-title">Welcome to Soho</h2>
+                <p class="about-text">
+                    Located in the heart of London, we bring you authentic italian 
+                    cuisine crafted with passion and the finest ingredients. Our chefs have perfected 
+                    traditional recipes passed down through generations.
+                </p>
+                <p class="about-text" style="margin-top: 1.5rem;">
+                    Whether you're craving a quick takeaway or planning a special meal, 
+                    we're here to deliver an unforgettable dining experience right to your door.
+                </p>
+                <a href="tel:02074372233" class="cta-btn cta-btn-primary" style="margin-top: 2rem;">
+                    📞 020 7437 2233
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Menu Preview -->
+    <section class="menu-section">
+        <h2 class="menu-title reveal">Popular Dishes</h2>
+        <div class="menu-grid">
+            <div class="menu-card reveal">
+                <h3 class="menu-card-title">Signature Dish</h3>
+                <p class="about-text" style="margin-bottom: 1rem;">Chef's speciality, prepared with love</p>
+                <span class="menu-card-price">From £12.99</span>
+            </div>
+            <div class="menu-card reveal">
+                <h3 class="menu-card-title">Family Feast</h3>
+                <p class="about-text" style="margin-bottom: 1rem;">Perfect for sharing with loved ones</p>
+                <span class="menu-card-price">From £34.99</span>
+            </div>
+            <div class="menu-card reveal">
+                <h3 class="menu-card-title">Quick Bite</h3>
+                <p class="about-text" style="margin-bottom: 1rem;">Delicious & ready in minutes</p>
+                <span class="menu-card-price">From £8.99</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="cta-title reveal">Order Now</h2>
+        <p class="about-text reveal" style="max-width: 600px; margin: 0 auto 2rem;">
+            Ready to experience the authentic taste of Italian cuisine? 
+            Call us now or visit us at our London location.
+        </p>
+        <div class="cta-buttons reveal">
+            <a href="tel:02074372233" class="cta-btn cta-btn-primary">
+                📞 Call Now
+            </a>
+            <a href="#location" class="cta-btn cta-btn-secondary">
+                📍 Find Us
+            </a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer" id="location">
+        <div class="footer-grid">
+            <div>
+                <h3 class="footer-title">Soho Pizza</h3>
+                <p class="footer-text">34 Old Compton Street, W1D 4TF</p>
+                <p class="footer-text">London</p>
+            </div>
+            <div>
+                <h3 class="footer-title">Contact</h3>
+                <p class="footer-text">020 7437 2233</p>
+                <p class="footer-text">Open 7 days a week</p>
+            </div>
+            <div>
+                <h3 class="footer-title">Hours</h3>
+                <p class="footer-text">Mon-Sun: 12:00 PM - 11:00 PM</p>
+                <p class="footer-text">Delivery & Takeaway</p>
+            </div>
+        </div>
+        <p class="footer-text" style="text-align: center; margin-top: 3rem; opacity: 0.5;">
+            © 2026 Soho Pizza. All rights reserved.
+        </p>
+    </footer>
+    
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX - 10,
+                y: e.clientY - 10,
+                duration: 0.15
+            });
+            gsap.to(cursorDot, {
+                x: e.clientX - 3,
+                y: e.clientY - 3,
+                duration: 0.05
+            });
+        });
+        
+        // Hover effect on interactive elements
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+        
+        // Hero Animation
+        gsap.to('.hero-title', {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            ease: 'power4.out',
+            delay: 0.3
+        });
+        
+        gsap.to('.hero-subtitle', {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            ease: 'power4.out',
+            delay: 0.6
+        });
+        
+        // Scroll Reveal
+        gsap.utils.toArray('.reveal').forEach(el => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleClass: 'active'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1
+            });
+        });
+        
+        // Parallax effect on about image
+        gsap.to('.about-image::before', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+            },
+            y: 50
+        });
+    </script>
+</body>
+</html>
